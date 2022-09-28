@@ -4,28 +4,28 @@ import FileSystem from "./lib/FileSystem";
 import Finder from "./lib/Finder";
 
 const App = () => (
-	<IconProvider
-		value={{
-			...DEFAULT_ICON_CONFIGS,
-			prefix: "fs",
-		}}
-	>
-		<Global
-			styles={css({
-				"*": {
-					WebkitTapHighlightColor: "transparent",
-				},
-				"[data-tap-active]": {
-					transition: "opacity .1s",
-					"&:active": {
-						opacity: 0.6,
-					},
-				},
-			})}
-		/>
-		<FileSystem></FileSystem>
-		<Finder></Finder>
-	</IconProvider>
+  <IconProvider
+    value={{
+      ...DEFAULT_ICON_CONFIGS,
+      prefix: "fs",
+    }}
+  >
+    <Global
+      styles={css({
+        "*": {
+          WebkitTapHighlightColor: "transparent",
+        },
+        "[data-tap-active]": {
+          transition: "opacity .1s",
+          "&:active": {
+            opacity: 0.6,
+          },
+        },
+      })}
+    />
+    <FileSystem></FileSystem>
+    <Finder></Finder>
+  </IconProvider>
 );
 
 export default App;
