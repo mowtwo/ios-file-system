@@ -51,7 +51,9 @@ const FileSystemTop = (props: { shadow: boolean }) => {
                 data-tap-active
                 className="tool"
               />
-              <div className="tool">选择</div>
+              <div className="tool" data-tap-active>
+                选择
+              </div>
             </div>
           </div>
         </div>
