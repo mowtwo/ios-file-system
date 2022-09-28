@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { AllApplication, ExpandLeft, FolderPlus } from "@icon-park/react";
 import { useAtom } from "jotai";
-import { fileSystemTitle, showFinder } from "../data/global";
+import { currentArea, showFinder } from "../data/global";
 import { useState } from "react";
 import {
   cssFileSystemMain,
@@ -14,7 +14,7 @@ import { UIEventHandler } from "react";
 import MacScrollbar from "../components/MacScrollbar";
 
 const FileSystemTop = (props: { shadow: boolean }) => {
-  const [title] = useAtom(fileSystemTitle);
+  const [title] = useAtom(currentArea);
   const [, setFinderShow] = useAtom(showFinder);
 
   return (
