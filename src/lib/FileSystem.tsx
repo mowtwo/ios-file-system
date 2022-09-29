@@ -87,7 +87,8 @@ const FileSystem = (props: PropsWithChildren) => {
           };
         }}
         scrollYThumbStyle={({ originOffset, content, viewport }) => {
-          const height = (viewport - fileSystemTopHeight) ** 2 / content;
+          const height: number =
+            (viewport - fileSystemTopHeight) ** 2 / content;
           const top =
             originOffset * ((viewport - fileSystemTopHeight) / content);
           return {

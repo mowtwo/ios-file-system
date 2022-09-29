@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
+    "@floating-ui/react-dom": "^1.0.0",
     "@icon-park/react": "^1.4.2",
+    "ahooks": "^3.7.1",
     "jotai": "^1.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

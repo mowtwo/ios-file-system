@@ -61,7 +61,8 @@ export const cssFinderHeader = css`
     align-items: center;
     .tool {
       margin-left: auto;
-      margin-right: 25px;
+      margin-right: 15px;
+      cursor: pointer;
     }
   }
 `
@@ -89,6 +90,7 @@ export const cssFinderList = css`
         padding: 0 8px;
         height: 44px;
         border-radius: 12px;
+        cursor: pointer;
         &.active {
           background-color: #087cff;
           color: #fff;

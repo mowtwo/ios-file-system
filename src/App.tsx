@@ -17,6 +17,8 @@ const App = () => (
         },
         "[data-tap-active]": {
           transition: "opacity .1s",
+          userSelect: "none",
+          cursor: "pointer",
           "&:active": {
             opacity: 0.6,
           },

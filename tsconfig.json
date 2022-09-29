@@ -20,7 +20,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "@emotion/react/types/css-prop"
+      "@emotion/react/types/css-prop",
+      "@types/wicg-file-system-access"
     ]
   },
   "include": [
