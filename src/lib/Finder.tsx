@@ -1,9 +1,9 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   currentArea,
   dictList as _dictList,
+  pathStack,
   showFinder,
-  storageAreas,
 } from "../data/global";
 import {
   cssFinder,
@@ -119,28 +119,25 @@ const FinderHeader = (props: { shadow?: boolean }) => {
 };
 
 const FinderList = () => {
-  const [areas] = useAtom(storageAreas);
-  const [activeArea, setActiveArea] = useAtom(currentArea);
-
-  useEffect(() => {
-    console.log("effect", areas);
-  }, [areas]);
+  const dictList = useAtomValue(_dictList);
+  const activeArea = useAtomValue(currentArea);
+  const setPathStack = useSetAtom(pathStack);
 
   return (
     <div css={cssFinderList}>
       <div className="group">
         <div className="name">位置</div>
         <div className="areas">
-          {areas.map((item) => {
-            const active = item === activeArea;
+          {dictList.map((item) => {
+            const active = item.name === activeArea?.name;
             return (
               <div
                 className={`item ${active ? "active" : ""}`}
-                key={item}
+                key={item.name}
                 onClick={() => {
-                  setActiveArea(item);
+                  setPathStack([item]);
                 }}
-                title={item}
+                title={item.name}
                 data-tap-active
               >
                 <div className="icon">
@@ -150,7 +147,7 @@ const FinderList = () => {
                     className="default"
                   />
                 </div>
-                <div className="name">{item}</div>
+                <div className="name">{item.name}</div>
               </div>
             );
           })}

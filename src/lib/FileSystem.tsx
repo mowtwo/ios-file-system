@@ -14,7 +14,7 @@ import { UIEventHandler } from "react";
 import MacScrollbar from "../components/MacScrollbar";
 
 const FileSystemTop = (props: { shadow: boolean }) => {
-  const [title] = useAtom(currentArea);
+  const [area] = useAtom(currentArea);
   const [, setFinderShow] = useAtom(showFinder);
 
   return (
@@ -22,7 +22,7 @@ const FileSystemTop = (props: { shadow: boolean }) => {
       <div className="background"></div>
       <div className="content">
         <div className="info">
-          <div className="title">{title}</div>
+          <div className="title">{area?.name}</div>
           <div className="tools">
             <div className="left">
               <ExpandLeft
