@@ -11,6 +11,7 @@ specifiers:
   ahooks: ^3.7.1
   dayjs: ^1.11.5
   jotai: ^1.8.4
+  pretty-bytes: ^6.0.0
   react: ^18.2.0
   react-dom: ^18.2.0
   reset.css: ^2.0.2
@@ -24,6 +25,7 @@ dependencies:
   ahooks: 3.7.1_react@18.2.0
   dayjs: 1.11.5
   jotai: 1.8.4_react@18.2.0
+  pretty-bytes: 6.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   reset.css: 2.0.2
@@ -1082,6 +1084,11 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true
+
+  /pretty-bytes/6.0.0:
+    resolution: {integrity: sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}

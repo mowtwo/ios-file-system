@@ -7,6 +7,7 @@ import MacFolderPng from "../assets/mac_folder.png";
 import { useState } from "react";
 import dayjs from "dayjs";
 import asyncMap from "../util/asyncMap";
+import prettyBytes from "pretty-bytes";
 
 export interface ItemProps<T extends FileSystemHandle>
   extends HTMLAttributes<HTMLDivElement> {
@@ -100,7 +101,9 @@ export const ItemFile = (props: ItemProps<FileSystemFileHandle>) => {
               {dayjs(info.modification).format("YYYY/MM/DD")}
             </div>
           ) : null}
-          <div className="size">{info.size}</div>
+          <div className="size">
+            {prettyBytes(info.size, { maximumFractionDigits: 1 })}
+          </div>
         </div>
       </div>
     </div>
