@@ -1,5 +1,7 @@
 import { css, Global } from "@emotion/react";
 import { IconProvider, DEFAULT_ICON_CONFIGS } from "@icon-park/react";
+import { Suspense } from "react";
+import FileArea from "./lib/FileArea";
 import FileSystem from "./lib/FileSystem";
 import Finder from "./lib/Finder";
 
@@ -25,7 +27,11 @@ const App = () => (
         },
       })}
     />
-    <FileSystem></FileSystem>
+    <FileSystem>
+      <Suspense fallback={"Loading"}>
+        <FileArea></FileArea>
+      </Suspense>
+    </FileSystem>
     <Finder></Finder>
   </IconProvider>
 );

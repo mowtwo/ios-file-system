@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import asyncMap from "../util/asyncMap";
 
 export const showFinder = atom(true)
 
@@ -22,5 +23,16 @@ export const currentDict = atom((get) => {
     return stack[stack.length - 1] as FileSystemDirectoryHandle
   } else {
     return null
+  }
+})
+
+export const currentDictList = atom(async (get) => {
+  const dict = get(currentDict)
+
+  if (dict) {
+    const entries = await dict.entries()
+    return asyncMap(entries, ([, item]) => item)
+  } else {
+    return []
   }
 })
