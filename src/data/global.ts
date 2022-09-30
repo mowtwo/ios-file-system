@@ -4,7 +4,7 @@ import asyncMap from "../util/asyncMap";
 export const showFinder = atom(true)
 
 
-export const dictList = atom<FileSystemDirectoryHandle[]>([])
+export const dictList = atom<{ handle: FileSystemDirectoryHandle, id: number }[]>([])
 
 export const pathStack = atom<FileSystemHandle[]>([])
 

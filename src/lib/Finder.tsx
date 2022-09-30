@@ -57,13 +57,19 @@ const FinderHeader = (props: { shadow?: boolean }) => {
       const dict = await showDirectoryPicker();
       let canPush = true;
       for (const item of dictList) {
-        if (await item.isSameEntry(dict)) {
+        if (await item.handle.isSameEntry(dict)) {
           canPush = false;
           break;
         }
       }
       if (canPush) {
-        setDictList((list) => [...list, dict]);
+        setDictList((list) => [
+          ...list,
+          {
+            handle: dict,
+            id: Date.now(),
+          },
+        ]);
       }
     } catch (e) {
       console.log("select exception:", e);
@@ -108,7 +114,9 @@ const FinderHeader = (props: { shadow?: boolean }) => {
         >
           <MacMenuItem
             icon={<AddItem></AddItem>}
-            onClick={() => handleSelectNewDict(dictList)}
+            onClick={() =>
+              handleSelectNewDict(dictList.map(({ handle }) => handle))
+            }
           >
             添加存储单元
           </MacMenuItem>
@@ -118,10 +126,42 @@ const FinderHeader = (props: { shadow?: boolean }) => {
   );
 };
 
-const FinderList = () => {
-  const dictList = useAtomValue(_dictList);
+const FinderItem = (props: { item: FileSystemHandle }) => {
+  const { item } = props;
+  const [active, setActive] = useState(false);
+
   const activeArea = useAtomValue(currentArea);
   const setPathStack = useSetAtom(pathStack);
+
+  useEffect(() => {
+    activeArea?.isSameEntry(item).then((res) => {
+      setActive(res);
+    });
+  }, [activeArea]);
+
+  return (
+    <div
+      className={`item ${active ? "active" : ""}`}
+      onClick={() => {
+        setPathStack([item]);
+      }}
+      title={item.name}
+      data-tap-active
+    >
+      <div className="icon">
+        <SolidStateDisk
+          size={24}
+          fill={active ? "#fff" : fileSystemToolColor}
+          className="default"
+        />
+      </div>
+      <div className="name">{item.name}</div>
+    </div>
+  );
+};
+
+const FinderList = () => {
+  const dictList = useAtomValue(_dictList);
 
   return (
     <div css={cssFinderList}>
@@ -129,27 +169,7 @@ const FinderList = () => {
         <div className="name">位置</div>
         <div className="areas">
           {dictList.map((item) => {
-            const active = item.name === activeArea?.name;
-            return (
-              <div
-                className={`item ${active ? "active" : ""}`}
-                key={item.name}
-                onClick={() => {
-                  setPathStack([item]);
-                }}
-                title={item.name}
-                data-tap-active
-              >
-                <div className="icon">
-                  <SolidStateDisk
-                    size={24}
-                    fill={active ? "#fff" : fileSystemToolColor}
-                    className="default"
-                  />
-                </div>
-                <div className="name">{item.name}</div>
-              </div>
-            );
+            return <FinderItem item={item.handle} key={item.id} />;
           })}
         </div>
       </div>

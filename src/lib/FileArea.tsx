@@ -17,16 +17,27 @@ export interface ItemProps<T extends FileSystemHandle>
 export const cssItem = css`
   width: 90px;
   height: 165px;
+  user-select: none;
+  &.selected {
+    background-color: rgba(0, 0, 0, 0.14);
+  }
   .icon {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
     img {
       width: 100%;
-      height: 75px;
+      height: 80px;
       object-fit: scale-down;
       object-position: center;
     }
   }
   .info {
     text-align: center;
+    margin-top: 4px;
     .name {
       line-height: 20px;
       font-size: 14px;
@@ -49,6 +60,7 @@ export const cssItemFile = css`
   ${cssItem}
   .icon {
     position: relative;
+
     .type {
       position: absolute;
       width: 100%;
