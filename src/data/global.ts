@@ -36,3 +36,5 @@ export const currentDictList = atom(async (get) => {
     return []
   }
 })
+
+export const currentSelected = atom<FileSystemHandle | null>(null)

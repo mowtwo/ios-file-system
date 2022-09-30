@@ -1,13 +1,15 @@
 import { css } from "@emotion/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { HTMLAttributes, useEffect } from "react";
-import { currentDictList } from "../data/global";
+import { currentDictList, currentSelected } from "../data/global";
 import MacFilePng from "../assets/mac_file.png";
 import MacFolderPng from "../assets/mac_folder.png";
 import { useState } from "react";
 import dayjs from "dayjs";
 import asyncMap from "../util/asyncMap";
 import prettyBytes from "pretty-bytes";
+import { useCallback } from "react";
+import useCurrentSelected from "../hooks/useCurrentSelected";
 
 export interface ItemProps<T extends FileSystemHandle>
   extends HTMLAttributes<HTMLDivElement> {
@@ -19,7 +21,18 @@ export const cssItem = css`
   height: 165px;
   user-select: none;
   &.selected {
-    background-color: rgba(0, 0, 0, 0.14);
+    .icon {
+      background-color: rgba(0, 0, 0, 0.14);
+    }
+    .info {
+      .name {
+        color: #fff;
+        span {
+          background-color: #344bde;
+          filter: url("./filter.svg#goo");
+        }
+      }
+    }
   }
   .icon {
     width: 90px;
@@ -47,6 +60,10 @@ export const cssItem = css`
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      span {
+        box-decoration-break: clone;
+        padding: 0 6px;
+      }
     }
     .more {
       font-size: 12px;
@@ -77,6 +94,8 @@ export const cssItemFile = css`
 `;
 
 export const ItemFile = (props: ItemProps<FileSystemFileHandle>) => {
+  const selected = useCurrentSelected(props.handle);
+
   const [info, setInfo] = useState<{
     modification?: Date;
     size: number;
@@ -100,13 +119,20 @@ export const ItemFile = (props: ItemProps<FileSystemFileHandle>) => {
     }
   }, []);
   return (
-    <div css={cssItemFile} data-tap-action title={props.handle.name}>
+    <div
+      css={cssItemFile}
+      data-tap-action
+      title={props.handle.name}
+      className={selected ? "selected" : ""}
+    >
       <div className="icon">
-        <img src={MacFilePng} alt="icon" />
+        <img src={MacFilePng} alt="icon" draggable="false" />
         <div className="type">{fileIconType}</div>
       </div>
       <div className="info">
-        <div className="name">{props.handle.name}</div>
+        <div className="name">
+          <span>{props.handle.name}</span>
+        </div>
         <div className="more">
           {info.modification ? (
             <div className="modification">
@@ -127,6 +153,7 @@ export const cssITemFolder = css`
 `;
 
 export const ItemFolder = (props: ItemProps<FileSystemDirectoryHandle>) => {
+  const selected = useCurrentSelected(props.handle);
   const [itemCount, setItemCount] = useState(0);
   useEffect(() => {
     const handle = props.handle;
@@ -135,12 +162,19 @@ export const ItemFolder = (props: ItemProps<FileSystemDirectoryHandle>) => {
     );
   }, []);
   return (
-    <div css={cssITemFolder} data-tap-action title={props.handle.name}>
+    <div
+      css={cssITemFolder}
+      data-tap-action
+      title={props.handle.name}
+      className={selected ? "selected" : ""}
+    >
       <div className="icon">
-        <img src={MacFolderPng} alt="icon" />
+        <img src={MacFolderPng} alt="icon" draggable="false" />
       </div>
       <div className="info">
-        <div className="name">{props.handle.name}</div>
+        <div className="name">
+          <span>{props.handle.name}</span>
+        </div>
         <div className="more">
           <div className="count">{itemCount}项</div>
         </div>
@@ -159,24 +193,28 @@ export const cssFileArea = css`
 
 const FileArea = () => {
   const list = useAtomValue(currentDictList);
+  const setCurrentSelected = useSetAtom(currentSelected);
+  const handleItemClick = useCallback(
+    (item: FileSystemHandle) => {
+      setCurrentSelected(item);
+    },
+    [list]
+  );
   return (
     <div css={cssFileArea}>
       {list.map((item) => {
-        if (item.kind === "directory") {
-          return (
-            <ItemFolder
-              key={`${item.kind}-${item.name}`}
-              handle={item as FileSystemDirectoryHandle}
-            />
-          );
-        } else {
-          return (
-            <ItemFile
-              key={`${item.kind}-${item.name}`}
-              handle={item as FileSystemFileHandle}
-            />
-          );
-        }
+        return (
+          <div
+            key={`${item.kind}-${item.name}`}
+            onClick={() => handleItemClick(item)}
+          >
+            {item.kind === "directory" ? (
+              <ItemFolder handle={item as FileSystemDirectoryHandle} />
+            ) : (
+              <ItemFile handle={item as FileSystemFileHandle} />
+            )}
+          </div>
+        );
       })}
     </div>
   );
