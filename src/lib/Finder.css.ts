@@ -9,7 +9,8 @@ export const cssFinder = css`
   height: 100vh;
   top: 0;
   left: 0;
-  background-color: #f8f8f8;
+  background-color: rgba(248,248,248,.9);
+  backdrop-filter: saturate(50%) blur(10px);
   transition: left .8s;
   will-change: left;
   box-shadow: #b2b2b2 1px 0  0;

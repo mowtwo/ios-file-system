@@ -14,10 +14,10 @@ export const cssFileSystemTop = css`
 	z-index: 9;
 	&.shadow {
 		box-shadow: #b2b2b2 0 1px 0;
-		background-color: rgba(252, 252, 252, .95);
+		/* background-color: rgba(252, 252, 252, .95); */
 		.background{
-			background-color: rgba(252, 252, 252, .95);
-			filter: saturate(180%) blur(10px);
+			background-color: rgba(252, 252, 252, .8);
+			backdrop-filter: saturate(50%) blur(10px);
 		}
 	}
 	.background {
